@@ -80,7 +80,7 @@
 <%@include file="common/foot.jsp"%>
 <script type="text/javascript">
     document.body.style.backgroundImage="URL(${pageContext.request.contextPath}/resources/images/3.jpg)";
-   $(function () {
+    $(function () {
         $('.cook_btn').click(function () {
             var oid=$(this).attr('oid');
             var did=$(this).attr('did');

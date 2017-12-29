@@ -1,6 +1,7 @@
 package com.restaurant.web;
 
 import com.restaurant.dto.OrderFormItem;
+import com.restaurant.dto.SoldDishItem;
 import com.restaurant.entity.*;
 import com.restaurant.enums.*;
 import com.restaurant.service.*;
@@ -16,7 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -33,11 +33,15 @@ public class CustomerController {
     private DishGroupService dishGroupService;
 
     @Autowired
+    private DishService dishService;
+
+    @Autowired
     private OrderDishService orderDishService;
 
     @Autowired
     private OrderFormService orderFormService;
 
+    //顾客登录
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public String login(DiningTable diningtable, HttpServletRequest request, RedirectAttributes attributes, Model model){
 
@@ -62,6 +66,7 @@ public class CustomerController {
         return "redirect:/customer/"+tId+"/menu";
     }
 
+    //顾客登录首页信息
     @RequestMapping(value = "/{tId}/menu",
             method = RequestMethod.GET)
     public String menu(@PathVariable("tId") int tId, HttpServletRequest request, Model model){
@@ -91,6 +96,7 @@ public class CustomerController {
         return "menu";
     }
 
+    //增加点单项目
     @RequestMapping(value = "orderdish/{dId}/add",
             method = RequestMethod.POST)
     public String addOrderDish(OrderDish orderDish,HttpServletRequest request, RedirectAttributes attributes, RedirectAttributesModelMap modelMap){
@@ -109,6 +115,7 @@ public class CustomerController {
         return "redirect:/customer/"+sessionTId+"/menu";
     }
 
+    //删除点单项目
     @RequestMapping(value = "orderdish/{dId}/delete",method = RequestMethod.GET)
     public String deleteOrderDish(@PathVariable("dId") int dId, HttpServletRequest request, RedirectAttributes attributes, RedirectAttributesModelMap modelMap){
         HttpSession session=request.getSession();
@@ -124,6 +131,7 @@ public class CustomerController {
         return "redirect:/customer/" +sessionTId+ "/menu";
     }
 
+    //更新点单
     @RequestMapping(value = "orderdish/{dId}/update",
             method = RequestMethod.POST)
     public String updateOrderDish(OrderDish orderDish,HttpServletRequest request, RedirectAttributes attributes, RedirectAttributesModelMap modelMap){
@@ -141,12 +149,20 @@ public class CustomerController {
         modelMap.addFlashAttribute("msg",registerStateEnum.getStateInfo());
         return "redirect:/customer/"+sessionTId+"/menu";
     }
+
+    //展示已点订单
     @RequestMapping(value="displayDish",method = RequestMethod.GET)
-    public String  displayDish(HttpServletRequest request,RedirectAttributes attributes,RedirectAttributesModelMap modelMap){
+    public String  displayDish(HttpServletRequest request,Model model){
+        HttpSession session = request.getSession();
+        int rId = (int)session.getAttribute("rId");
+
+        List<SoldDishItem> top5SoldDishList = dishService.getTop5SoldDishes(rId);
+        model.addAttribute("top5SoldDishList",top5SoldDishList);
+
         return "displayDish";
     }
     @RequestMapping(value="company",method = RequestMethod.GET)
-    public String company(HttpServletRequest request,RedirectAttributes attributes,RedirectAttributesModelMap modelMap){
+    public String company(){
         return "company";
     }
 }

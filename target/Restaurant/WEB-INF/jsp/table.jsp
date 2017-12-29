@@ -301,7 +301,6 @@
             $('#guest_update_guest_number').val($(this).attr('guestnumber'));
             $('#guest_update_status').val($(this).attr('status'));
             $('#guest_update_service_code').val($(this).attr('servicecode'));
-
             var action="/table/"+$(this).attr('tid')+"/guest/update";
             $('#guest_update_form').attr("action",action);
         })

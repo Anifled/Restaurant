@@ -66,9 +66,9 @@
                 </div>
                 <div class="col-md-4 alert alert-warning" style=" min-height:400px">
                     <div >
-                        <p><span>菜品一:烤羊排</span></p>
-                        <p><span>菜品二:凉拌西红柿</span></p>
-                        <p><span>菜品三:烘焙小蛋糕</span></p>
+                        <c:forEach varStatus="i" var="dish" items="${top5SoldDishList}">
+                            <p><span>Top${i.index+1}: ${dish.dishName}</span></p>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
@@ -97,7 +97,7 @@
                         <img src="${pageContext.request.contextPath}/resources/images/companyImages/xiang3.jpg" alt="图片丢失">
                         <div class="caption">
                             <p>香辣羊排</p>
-                            <p>海鲜</p>
+                            <p>维吾尔族的秘密</p>
                         </div>
                     </div>
                 </div>
@@ -152,7 +152,7 @@
                     </div>
                 </div>
             </div>
-            <h3 align="center" style="color: #f7e1b5">闵菜</h3>
+            <h3 align="center" style="color: #f7e1b5">闽菜</h3>
             <div class="row" id="min">
                 <div class="col-md-4 ">
                     <div class="thumbnail">
